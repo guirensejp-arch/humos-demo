@@ -487,13 +487,56 @@
   .menu-item .name:hover {
     color: var(--red);
   }
+
+  /* ---------- IMAGE PREVIEW ---------- */
+  .image-preview {
+    position: fixed;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    max-width: 280px;
+    max-height: 280px;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  }
+
+  .image-preview.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Touch device preview */
+  @media (hover: none) and (pointer: coarse) {
+    .image-preview {
+      position: fixed;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) scale(0.8);
+      max-width: 90vw;
+      max-height: 50vh;
+      pointer-events: auto;
+    }
+
+    .image-preview.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="logo-word">HUMOS</div>
-  <a class="cta-small" href="https://wa.me/5493915095481" target="_blank" rel="noopener">PEDIR AHORA</a>
+  <a class="cta-small" href="https://wa.me/5493815095481?text=Hola%20%F0%9F%91%8B%20Bienvenido%20a%20HUMOS%20%F0%9F%8D%96.%20%C2%BFQu%C3%A9%20te%20gustar%C3%ADa%20pedir%3F%20%F0%9F%8D%94%20Por%20favor%20indicanos%3A%201%29%20Tu%20pedido%202%29%20Direcci%C3%B3n%20de%20entrega%203%29%20Cu%C3%A1ntas%20personas%20son.%20%C2%A1Gracias%20por%20elegirnos%21" target="_blank" rel="noopener">PEDIR AHORA</a>
 </nav>
 
 <section class="hero">
@@ -501,7 +544,7 @@
   <h1 class="display">HUMOS</h1>
   <p class="sub">Ahumado 12 horas, pan propio de PanLab y una carta que no se anda con vueltas.</p>
   <div class="hero-cta">
-    <a class="btn btn-primary" href="https://wa.me/5493915095481" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    <a class="btn btn-primary" href="https://wa.me/5493815095481?text=Hola%20%F0%9F%91%8B%20Bienvenido%20a%20HUMOS%20%F0%9F%8D%96.%20%C2%BFQu%C3%A9%20te%20gustar%C3%ADa%20pedir%3F%20%F0%9F%8D%94%20Por%20favor%20indicanos%3A%201%29%20Tu%20pedido%202%29%20Direcci%C3%B3n%20de%20entrega%203%29%20Cu%C3%A1ntas%20personas%20son.%20%C2%A1Gracias%20por%20elegirnos%21" target="_blank" rel="noopener">Pedir por WhatsApp</a>
     <a class="btn btn-outline" href="#menu">Ver la carta</a>
   </div>
 </section>
@@ -591,7 +634,7 @@
     <div class="info-card animate-on-scroll slide-right delay-3">
       <span class="tag">CONTACTO</span>
       <p>
-        <a href="https://wa.me/5493815095481" target="_blank" rel="noopener">WhatsApp</a><br>
+        <a href="https://wa.me/5493815095481?text=Hola%20%F0%9F%91%8B%20Bienvenido%20a%20HUMOS%20%F0%9F%8D%96.%20%C2%BFQu%C3%A9%20te%20gustar%C3%ADa%20pedir%3F%20%F0%9F%8D%94%20Por%20favor%20indicanos%3A%201%29%20Tu%20pedido%202%29%20Direcci%C3%B3n%20de%20entrega%203%29%20Cu%C3%A1ntas%20personas%20son.%20%C2%A1Gracias%20por%20elegirnos%21" target="_blank" rel="noopener">WhatsApp</a><br>
         <a href="https://instagram.com/humos.tuc" target="_blank" rel="noopener">@humos.tuc</a>
       </p>
     </div>
@@ -600,7 +643,7 @@
 
 <section class="footer-cta">
   <h2 class="display animate-on-scroll fade-up">¿Hambre de humo?</h2>
-  <a class="btn btn-primary animate-on-scroll fade-up delay-1" href="https://wa.me/5493915095481" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  <a class="btn btn-primary animate-on-scroll fade-up delay-1" href="https://wa.me/5493815095481?text=Hola%20%F0%9F%91%8B%20Bienvenido%20a%20HUMOS%20%F0%9F%8D%96.%20%C2%BFQu%C3%A9%20te%20gustar%C3%ADa%20pedir%3F%20%F0%9F%8D%94%20Por%20favor%20indicanos%3A%201%29%20Tu%20pedido%202%29%20Direcci%C3%B3n%20de%20entrega%203%29%20Cu%C3%A1ntas%20personas%20son.%20%C2%A1Gracias%20por%20elegirnos%21" target="_blank" rel="noopener">Pedir por WhatsApp</a>
 </section>
 
 <footer>
@@ -613,6 +656,11 @@
     <button class="modal-close" id="modalClose">×</button>
     <img id="modalImage" src="" alt="">
   </div>
+</div>
+
+<!-- Preview de imagen al hover -->
+<div class="image-preview" id="imagePreview">
+  <img id="previewImage" src="" alt="">
 </div>
 
 <script>
@@ -690,6 +738,122 @@
       document.body.style.overflow = '';
     }
   });
+
+  // Image Preview functionality
+  const imagePreview = document.getElementById('imagePreview');
+  const previewImage = document.getElementById('previewImage');
+  let previewTimeout;
+  let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  // Detectar si es dispositivo touch
+  function checkTouchDevice() {
+    isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
+
+  // Mostrar preview
+  function showPreview(photoPath, x, y) {
+    previewImage.src = photoPath;
+    previewImage.onload = function() {
+      if (!isTouchDevice) {
+        // Posicionar cerca del cursor en desktop
+        const offsetX = 20;
+        const offsetY = 20;
+
+        // Asegurar que no se salga de la pantalla
+        let posX = x + offsetX;
+        let posY = y + offsetY;
+
+        const previewRect = imagePreview.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if (posX + previewRect.width > windowWidth) {
+          posX = x - previewRect.width - offsetX;
+        }
+        if (posY + previewRect.height > windowHeight) {
+          posY = y - previewRect.height - offsetY;
+        }
+
+        imagePreview.style.left = posX + 'px';
+        imagePreview.style.top = posY + 'px';
+      }
+
+      imagePreview.classList.add('active');
+    };
+  }
+
+  // Ocultar preview
+  function hidePreview() {
+    imagePreview.classList.remove('active');
+    clearTimeout(previewTimeout);
+  }
+
+  // Agregar event listeners a los nombres de productos para preview
+  document.querySelectorAll('.menu-item .name').forEach(nameElement => {
+    // Desktop: mouse events
+    nameElement.addEventListener('mouseenter', function(e) {
+      if (!isTouchDevice) {
+        const productName = this.textContent;
+        const photoPath = productPhotos[productName];
+
+        if (photoPath) {
+          clearTimeout(previewTimeout);
+          previewTimeout = setTimeout(() => {
+            showPreview(photoPath, e.clientX, e.clientY);
+          }, 200); // Pequeño delay para evitar flickering
+        }
+      }
+    });
+
+    nameElement.addEventListener('mousemove', function(e) {
+      if (!isTouchDevice && imagePreview.classList.contains('active')) {
+        const productName = this.textContent;
+        const photoPath = productPhotos[productName];
+
+        if (photoPath) {
+          showPreview(photoPath, e.clientX, e.clientY);
+        }
+      }
+    });
+
+    nameElement.addEventListener('mouseleave', function() {
+      if (!isTouchDevice) {
+        hidePreview();
+      }
+    });
+
+    // Mobile: touch events
+    nameElement.addEventListener('touchstart', function(e) {
+      if (isTouchDevice) {
+        const productName = this.textContent;
+        const photoPath = productPhotos[productName];
+
+        if (photoPath) {
+          e.preventDefault(); // Prevenir click inmediato
+          clearTimeout(previewTimeout);
+          previewTimeout = setTimeout(() => {
+            showPreview(photoPath, 0, 0);
+          }, 150);
+        }
+      }
+    });
+
+    nameElement.addEventListener('touchend', function() {
+      if (isTouchDevice) {
+        hidePreview();
+      }
+    });
+  });
+
+  // Ocultar preview al hacer touch fuera
+  document.addEventListener('touchstart', function(e) {
+    if (isTouchDevice && !e.target.closest('.menu-item .name')) {
+      hidePreview();
+    }
+  });
+
+  // Actualizar detección de dispositivo al cambiar tamaño de ventana
+  window.addEventListener('resize', checkTouchDevice);
 </script>
 
 </body>
