@@ -1,0 +1,25 @@
+# Archivos temporales y de sistema
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+
+# Logs
+*.log
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (si agregas JavaScript en el futuro)
+node_modules/
+
+# Imágenes optimizadas o temporales
+*.optimized.*
+
+# Archivos de backup
+*.bak
+*.backup
